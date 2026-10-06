@@ -6,7 +6,7 @@ Baue diese React-Native-App schrittweise zu einer echten Bluetooth-Steuerung fü
 ## Design ist verbindlich
 Die Master-Referenz liegt unter:
 
-`docs/ui-reference.png`
+`docs/ui-reference.jpg`
 
 Das UI soll sich sehr eng daran orientieren:
 
