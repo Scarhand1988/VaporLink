@@ -2,14 +2,26 @@ import React, { useState } from 'react';
 import { Pressable, StyleSheet, Switch, Text, View } from 'react-native';
 import { theme } from '../theme';
 
-const presets = [
+export type PresetKey = 'flavor' | 'standard' | 'strong' | 'custom';
+
+export const PRESETS: Array<{
+  key: Exclude<PresetKey, 'custom'>;
+  icon: string;
+  name: string;
+  temp: number;
+  desc: string;
+}> = [
   { key: 'flavor', icon: '◒', name: 'Geschmack', temp: 170, desc: 'Volles Aroma. Sanfter Dampf.' },
-  { key: 'standard', icon: '◒', name: 'Standard', temp: 185, desc: 'Ausgewogener Geschmack und spürbare Wirkung.' },
-  { key: 'strong', icon: '♨', name: 'Stark', temp: 200, desc: 'Maximale Leistung.' },
+  { key: 'standard', icon: '◒', name: 'Standard', temp: 185, desc: 'Ausgewogen und unkompliziert.' },
+  { key: 'strong', icon: '♨', name: 'Stark', temp: 200, desc: 'Hohe Temperatur für intensive Sessions.' },
 ];
 
-export function PresetsScreen() {
-  const [selected, setSelected] = useState('flavor');
+type Props = {
+  selected: PresetKey;
+  onSelect: (key: Exclude<PresetKey, 'custom'>) => void;
+};
+
+export function PresetsScreen({ selected, onSelect }: Props) {
   const [vibration, setVibration] = useState(true);
 
   return (
@@ -21,10 +33,10 @@ export function PresetsScreen() {
       </View>
 
       <View style={{ gap: 12 }}>
-        {presets.map((preset) => (
+        {PRESETS.map((preset) => (
           <Pressable
             key={preset.key}
-            onPress={() => setSelected(preset.key)}
+            onPress={() => onSelect(preset.key)}
             style={[styles.preset, selected === preset.key && styles.presetSelected]}
           >
             <Text style={[styles.presetIcon, selected === preset.key && { color: theme.colors.accent }]}>
@@ -40,7 +52,14 @@ export function PresetsScreen() {
         ))}
       </View>
 
-      <Text style={[styles.section, { marginTop: 26 }]}>Geräteeinstellungen</Text>
+      {selected === 'custom' && (
+        <View style={styles.customHint}>
+          <Text style={styles.customHintTitle}>Manuell angepasst</Text>
+          <Text style={styles.customHintText}>Die Temperatur wurde direkt in der Steuerung verändert.</Text>
+        </View>
+      )}
+
+      <Text style={[styles.section, { marginTop: 24 }]}>Geräteeinstellungen</Text>
       <View style={styles.settingsCard}>
         <View style={styles.row}>
           <Text style={styles.rowIcon}>≋</Text>
@@ -92,6 +111,9 @@ const styles = StyleSheet.create({
   desc: { color: theme.colors.muted, fontSize: 12, marginTop: 4 },
   radio: { width: 23, height: 23, borderRadius: 12, borderWidth: 2, borderColor: '#E6E6E6' },
   radioSelected: { borderColor: theme.colors.accent, borderWidth: 7 },
+  customHint: { marginTop: 12, padding: 14, borderRadius: 14, backgroundColor: '#21150F', borderWidth: 1, borderColor: theme.colors.accent },
+  customHintTitle: { color: theme.colors.accent, fontSize: 14, fontWeight: '700' },
+  customHintText: { color: theme.colors.muted, fontSize: 11, marginTop: 3 },
   settingsCard: { marginTop: 12, borderRadius: 16, backgroundColor: '#17181A', borderWidth: 1, borderColor: theme.colors.border, overflow: 'hidden' },
   row: { minHeight: 72, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, gap: 13 },
   rowIcon: { color: theme.colors.text, fontSize: 23, width: 25 },
