@@ -5,6 +5,9 @@
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
+    "web": "expo start --web",
+    "build:web": "expo export --platform web",
+    "serve:web": "serve dist -s -l ${PORT:-3000}",
     "android": "expo run:android",
     "ios": "expo run:ios",
     "prebuild": "expo prebuild"
@@ -12,8 +15,11 @@
   "dependencies": {
     "expo": "~57.0.0",
     "react": "19.2.3",
+    "react-dom": "19.2.3",
     "react-native": "0.86.0",
-    "react-native-ble-plx": "^3.5.1"
+    "react-native-ble-plx": "^3.5.1",
+    "react-native-web": "^0.21.0",
+    "serve": "^14.2.5"
   },
   "devDependencies": {
     "@types/react": "~19.2.2",
