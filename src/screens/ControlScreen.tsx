@@ -3,11 +3,15 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { TemperatureDial } from '../components/TemperatureDial';
 import { theme } from '../theme';
 
-export function ControlScreen() {
-  const [target, setTarget] = useState(185);
+type Props = {
+  target: number;
+  actual: number;
+  progress: number;
+  onTargetChange: (value: number) => void;
+};
+
+export function ControlScreen({ target, actual, progress, onTargetChange }: Props) {
   const [boost, setBoost] = useState<'none' | 'boost' | 'super'>('none');
-  const actual = 169;
-  const progress = 82;
 
   return (
     <View style={styles.container}>
@@ -19,7 +23,7 @@ export function ControlScreen() {
         <Text style={styles.sliders}>☷</Text>
       </View>
 
-      <TemperatureDial value={target} onChange={setTarget} />
+      <TemperatureDial value={target} onChange={onTargetChange} />
 
       <View style={styles.statusRow}>
         <View style={styles.statusBlock}>
@@ -28,7 +32,7 @@ export function ControlScreen() {
         </View>
         <View style={styles.divider} />
         <View style={[styles.statusBlock, { flex: 1.2 }]}>
-          <Text style={styles.muted}>Aufheizen …</Text>
+          <Text style={styles.muted}>{progress >= 100 ? 'Bereit' : 'Aufheizen …'}</Text>
           <View style={styles.progressRow}>
             <View style={styles.progressTrack}>
               <View style={[styles.progressFill, { width: `${progress}%` }]} />
@@ -41,17 +45,25 @@ export function ControlScreen() {
       <View style={styles.actions}>
         <Action
           title="Boost"
-          subtitle="+15 °C / 2 Min."
+          subtitle="+15 °C"
           selected={boost === 'boost'}
           onPress={() => setBoost(boost === 'boost' ? 'none' : 'boost')}
         />
         <Action
           title="Superboost"
-          subtitle="+25 °C / 2 Min."
+          subtitle="+25 °C"
           selected={boost === 'super'}
           onPress={() => setBoost(boost === 'super' ? 'none' : 'super')}
           strong
         />
+      </View>
+
+      <View style={styles.deviceStrip}>
+        <View>
+          <Text style={styles.deviceLabel}>CRAFTY+</Text>
+          <Text style={styles.deviceSub}>Simulationsmodus · BLE folgt als nächster Block</Text>
+        </View>
+        <Text style={styles.battery}>▣ 78 %</Text>
       </View>
     </View>
   );
@@ -100,4 +112,8 @@ const styles = StyleSheet.create({
   flame: { color: theme.colors.text, fontSize: 29, marginBottom: 4 },
   actionTitle: { color: theme.colors.text, fontSize: 18, fontWeight: '600' },
   actionSub: { color: theme.colors.muted, fontSize: 13, marginTop: 7 },
+  deviceStrip: { marginTop: 18, minHeight: 68, borderRadius: 16, borderWidth: 1, borderColor: theme.colors.border, backgroundColor: '#121315', paddingHorizontal: 16, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  deviceLabel: { color: theme.colors.text, fontSize: 14, fontWeight: '700' },
+  deviceSub: { color: theme.colors.muted, fontSize: 11, marginTop: 4 },
+  battery: { color: theme.colors.text, fontSize: 13, fontWeight: '600' },
 });
