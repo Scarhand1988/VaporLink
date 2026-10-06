@@ -1,0 +1,33 @@
+{
+  "expo": {
+    "name": "VaporLink",
+    "slug": "vaporlink",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.luma.vaporlink",
+      "infoPlist": {
+        "NSBluetoothAlwaysUsageDescription": "VaporLink benötigt Bluetooth, um sich mit deinem Gerät zu verbinden."
+      }
+    },
+    "android": {
+      "package": "com.luma.vaporlink",
+      "permissions": [
+        "BLUETOOTH_SCAN",
+        "BLUETOOTH_CONNECT"
+      ]
+    },
+    "plugins": [
+      [
+        "react-native-ble-plx",
+        {
+          "isBackgroundEnabled": false,
+          "neverForLocation": true,
+          "bluetoothAlwaysPermission": "VaporLink benötigt Bluetooth, um sich mit deinem Gerät zu verbinden."
+        }
+      ]
+    ]
+  }
+}
