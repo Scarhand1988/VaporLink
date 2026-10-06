@@ -12,7 +12,7 @@ Erster echter App-Start für das ausgewählte schwarze/orange Design.
 - Vibrationseinstellung
 - Bottom Navigation
 - BLE-Service-Skelett für CRAFTY/CRAFTY+
-- Designreferenz unter `docs/ui-reference.png`
+- Designreferenz unter `docs/ui-reference.jpg`
 
 ## Wichtiger technischer Punkt
 
